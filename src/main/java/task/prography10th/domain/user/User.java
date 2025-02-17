@@ -1,4 +1,4 @@
-package task.prography10th.domain;
+package task.prography10th.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,5 +21,5 @@ public class User extends BaseEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private UserStatus userStatus;
 }
