@@ -3,7 +3,11 @@ package task.prography10th.domain.user;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import task.prography10th.domain.room.Room;
 import task.prography10th.global.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +26,7 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
+
+    @OneToMany(mappedBy = "host")
+    private List<Room> rooms = new ArrayList<>();
 }
