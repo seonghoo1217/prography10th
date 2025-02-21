@@ -27,4 +27,11 @@ public class UserRoom {
 
     @Enumerated(EnumType.STRING)
     private UserTeam userTeam;
+
+
+    public UserRoom(Room room, User user, UserTeam userTeam) {
+        this.room = room;
+        this.user = user;
+        this.userTeam = userTeam;
+    }
 }

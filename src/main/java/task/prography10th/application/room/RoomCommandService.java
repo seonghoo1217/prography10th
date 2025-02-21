@@ -3,6 +3,7 @@ package task.prography10th.application.room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import task.prography10th.application.UserRoomCommandService;
 import task.prography10th.application.UserRoomQueryService;
 import task.prography10th.application.user.UserQueryService;
 import task.prography10th.domain.repo.RoomRepository;
@@ -23,6 +24,8 @@ public class RoomCommandService {
 
     private final UserRoomQueryService userRoomQueryService;
 
+    private final UserRoomCommandService userRoomCommandService;
+
     public Integer createRoom(CreateRoomReq createRoomReq) {
         User user = userQueryService.findUserById(createRoomReq.userId());
 
@@ -35,6 +38,11 @@ public class RoomCommandService {
         }
         Room room = new Room(createRoomReq.title(), user, RoomStatus.WAIT, createRoomReq.roomType());
         roomRepository.save(room);
+
+
+        if (userRoomCommandService.userRoomParticipation(user, room) == null) {
+            throw new BadAPIRequestException();
+        }
 
         return room.getId();
     }
