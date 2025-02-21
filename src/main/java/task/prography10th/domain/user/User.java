@@ -35,4 +35,11 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<UserRoom> userRooms;
+
+    public User(Integer fakerId, String name, String email, UserStatus userStatus) {
+        this.fakerId = fakerId;
+        this.name = name;
+        this.email = email;
+        this.userStatus = userStatus;
+    }
 }
