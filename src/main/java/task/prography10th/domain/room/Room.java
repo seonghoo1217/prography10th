@@ -1,6 +1,7 @@
 package task.prography10th.domain.room;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import task.prography10th.domain.UserRoom;
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "room")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Room extends BaseEntity {
 
     @Id
