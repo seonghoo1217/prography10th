@@ -30,8 +30,8 @@ public final class ApiResponse<T> {
         return new ApiResponse<>(code, message);
     }
 
-    public static <T> ApiResponse<T> success() {
-        return of(200, "API 요청이 성공했습니다.");
+    public static <T> ApiResponse<T> success(T result) {
+        return of(200, "API 요청이 성공했습니다.", result);
     }
 
     public static <T> ApiResponse<T> badRequest(T result) {

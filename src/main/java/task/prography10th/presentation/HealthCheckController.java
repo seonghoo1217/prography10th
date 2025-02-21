@@ -13,6 +13,6 @@ public class HealthCheckController {
 
     @GetMapping
     public ApiResponse<?> healthCheck() {
-        return ApiResponse.success();
+        return ApiResponse.success(null);
     }
 }
