@@ -17,6 +17,7 @@ import java.util.List;
 public class Room extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
