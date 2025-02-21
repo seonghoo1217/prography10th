@@ -5,4 +5,6 @@ import task.prography10th.domain.room.Room;
 
 public interface RoomRepository extends Repository<Room, Integer> {
     void deleteAllInBatch();
+
+    Room save(Room room);
 }

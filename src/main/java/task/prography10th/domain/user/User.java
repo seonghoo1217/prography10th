@@ -42,4 +42,8 @@ public class User extends BaseEntity {
         this.email = email;
         this.userStatus = userStatus;
     }
+
+    public boolean isActive() {
+        return this.userStatus == UserStatus.ACTIVE;
+    }
 }
