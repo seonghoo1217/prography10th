@@ -29,4 +29,10 @@ public class Room extends BaseEntity {
 
     @OneToMany(mappedBy = "room")
     private List<UserRoom> userRooms;
+
+    public Room(String title, User host, RoomStatus roomStatus, RoomType roomType) {
+        this.title = title;
+        this.host = host;
+        this.roomDetails = new RoomDetails(roomType, roomStatus);
+    }
 }
