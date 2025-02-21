@@ -9,10 +9,10 @@ import task.prography10th.global.dto.ApiResponse;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("health")
-public class HealthCheckAPI {
+public class HealthCheckController {
 
     @GetMapping
-    public ApiResponse<?> healthCheck(){
+    public ApiResponse<?> healthCheck() {
         return ApiResponse.success();
     }
 }
