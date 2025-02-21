@@ -20,6 +20,6 @@ public class InitController {
     public ApiResponse<?> initDatabase(@RequestBody InitReq initReq) {
         initCommandService.initializeDatabase(initReq);
 
-        return null;
+        return ApiResponse.success();
     }
 }
