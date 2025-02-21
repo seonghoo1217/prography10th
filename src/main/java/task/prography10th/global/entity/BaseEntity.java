@@ -1,4 +1,4 @@
-package task.prography10th.global;
+package task.prography10th.global.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

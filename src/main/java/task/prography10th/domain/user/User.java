@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import task.prography10th.domain.UserRoom;
 import task.prography10th.domain.room.Room;
-import task.prography10th.global.BaseEntity;
+import task.prography10th.global.entity.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
