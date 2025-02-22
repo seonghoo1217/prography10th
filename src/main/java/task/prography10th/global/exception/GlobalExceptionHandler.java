@@ -42,11 +42,11 @@ public class GlobalExceptionHandler {
                 return ResponseEntity.status(errorCode.getStatus())
                         .body(ApiResponse.badRequest(data));
             }
-            
+
             return ResponseEntity.status(errorCode.getStatus()).body(ApiResponse.error(data));
         }
 
-        log.error("Unexpected error occurred", e);
+        log.error("Unexpected error occurred : {}", e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.error(null));
     }
