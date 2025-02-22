@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import task.prography10th.application.user.UserQueryService;
 import task.prography10th.global.dto.ApiResponse;
 import task.prography10th.presentation.dto.req.PageReq;
-import task.prography10th.presentation.dto.res.UserPageRes;
+import task.prography10th.presentation.dto.res.user.UserPageRes;
 
 @RestController
 @RequiredArgsConstructor

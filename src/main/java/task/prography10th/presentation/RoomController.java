@@ -1,19 +1,21 @@
 package task.prography10th.presentation;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import task.prography10th.application.room.RoomCommandService;
+import task.prography10th.application.room.RoomQueryService;
 import task.prography10th.global.dto.ApiResponse;
+import task.prography10th.presentation.dto.req.PageReq;
 import task.prography10th.presentation.dto.req.room.CreateRoomReq;
+import task.prography10th.presentation.dto.res.room.RoomPageRes;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("room")
 public class RoomController {
     private final RoomCommandService roomCommandService;
+    private final RoomQueryService roomQueryService;
 
     @PostMapping
     public ApiResponse<?> createRoom(@RequestBody CreateRoomReq createRoomReq) {
@@ -24,5 +26,12 @@ public class RoomController {
         }
 
         return ApiResponse.success(null);
+    }
+
+    @GetMapping
+    public ApiResponse<?> findAllRoomByPage(@Valid PageReq pageReq) {
+        RoomPageRes roomPageRes = roomQueryService.findAllRoomByPage(pageReq.size(), pageReq.page());
+
+        return ApiResponse.success(roomPageRes);
     }
 }
