@@ -8,6 +8,7 @@ import task.prography10th.application.room.RoomQueryService;
 import task.prography10th.global.dto.ApiResponse;
 import task.prography10th.presentation.dto.req.PageReq;
 import task.prography10th.presentation.dto.req.room.CreateRoomReq;
+import task.prography10th.presentation.dto.res.room.RoomDetailRes;
 import task.prography10th.presentation.dto.res.room.RoomPageRes;
 
 @RestController
@@ -33,5 +34,12 @@ public class RoomController {
         RoomPageRes roomPageRes = roomQueryService.findAllRoomByPage(pageReq.size(), pageReq.page());
 
         return ApiResponse.success(roomPageRes);
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<?> findRoomById(@PathVariable Integer id) {
+        RoomDetailRes roomDetailRes = roomQueryService.findRoomById(id);
+
+        return ApiResponse.success(roomDetailRes);
     }
 }
