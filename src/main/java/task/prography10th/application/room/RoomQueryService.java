@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import task.prography10th.domain.repo.RoomRepository;
 import task.prography10th.domain.room.Room;
 import task.prography10th.global.exception.BadAPIRequestException;
-import task.prography10th.presentation.dto.res.room.RoomDetailRes;
 import task.prography10th.presentation.dto.res.room.RoomPageDetailRes;
 import task.prography10th.presentation.dto.res.room.RoomPageRes;
 
@@ -34,9 +33,8 @@ public class RoomQueryService {
         return new RoomPageRes(roomPage.getTotalElements(), roomPage.getTotalPages(), roomList);
     }
 
-    public RoomDetailRes findRoomById(Integer roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
+    public Room findRoomById(Integer roomId) {
 
-        return new RoomDetailRes(room);
+        return roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
     }
 }

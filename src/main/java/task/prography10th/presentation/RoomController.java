@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import task.prography10th.application.room.RoomCommandService;
 import task.prography10th.application.room.RoomQueryService;
+import task.prography10th.domain.room.Room;
 import task.prography10th.global.dto.ApiResponse;
 import task.prography10th.presentation.dto.req.PageReq;
 import task.prography10th.presentation.dto.req.room.CreateRoomReq;
+import task.prography10th.presentation.dto.req.room.JoinRoomReq;
 import task.prography10th.presentation.dto.res.room.RoomDetailRes;
 import task.prography10th.presentation.dto.res.room.RoomPageRes;
 
@@ -38,9 +40,16 @@ public class RoomController {
 
     @GetMapping("/{roomId}")
     public ApiResponse<?> findRoomById(@PathVariable Integer roomId) {
-        RoomDetailRes roomDetailRes = roomQueryService.findRoomById(roomId);
+        Room room = roomQueryService.findRoomById(roomId);
+
+        RoomDetailRes roomDetailRes = new RoomDetailRes(room);
 
         return ApiResponse.success(roomDetailRes);
+    }
+
+    @PostMapping("/attention/{roomId}")
+    public ApiResponse<?> attentionRoom(@PathVariable Integer roomId, @RequestBody JoinRoomReq joinRoomReq) {
+        return roomCommandService.joinRoom(roomId, joinRoomReq.userId());
     }
 
 }
