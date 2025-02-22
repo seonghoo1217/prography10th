@@ -13,5 +13,5 @@ public interface UserRoomRepository extends Repository<UserRoom, Integer> {
 
     UserRoom save(UserRoom userRoom);
 
-    Long countByRoomAndTeam(Room room, UserTeam userTeam);
+    Long countByRoomAndUserTeam(Room room, UserTeam userTeam);
 }
