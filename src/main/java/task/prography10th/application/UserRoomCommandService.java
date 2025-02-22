@@ -17,8 +17,28 @@ public class UserRoomCommandService {
     private final UserRoomRepository userRoomRepository;
 
     public Integer userRoomParticipation(User user, Room room) {
-        UserRoom userRoom = new UserRoom(room, user, UserTeam.RED);
+        UserTeam assignedTeam = allocationTeam(room);
+        UserRoom userRoom = new UserRoom(room, user, assignedTeam);
 
         return userRoomRepository.save(userRoom).getId();
+    }
+
+    private UserTeam allocationTeam(Room room) {
+        int maxPerTeam = room.getRoomDetails().getRoomType().getCapacity() / 2;
+
+        long redTeamCount = userRoomRepository.countByRoomAndTeam(room, UserTeam.RED);
+        long blueTeamCount = userRoomRepository.countByRoomAndTeam(room, UserTeam.BLUE);
+
+        UserTeam assignedTeam;
+
+        if (redTeamCount >= maxPerTeam) {
+            assignedTeam = UserTeam.BLUE;
+        } else if (blueTeamCount >= maxPerTeam) {
+            assignedTeam = UserTeam.RED;
+        } else {
+            assignedTeam = UserTeam.RED;
+        }
+
+        return assignedTeam;
     }
 }

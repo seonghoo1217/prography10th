@@ -36,4 +36,12 @@ public class Room extends BaseEntity {
         this.host = host;
         this.roomDetails = new RoomDetails(roomType, roomStatus);
     }
+
+    public boolean isActive() {
+        return this.roomDetails.getRoomStatus() == RoomStatus.WAIT;
+    }
+
+    public boolean isParticipate() {
+        return this.userRooms.size() < this.roomDetails.getRoomType().getCapacity();
+    }
 }

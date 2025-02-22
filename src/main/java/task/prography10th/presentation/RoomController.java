@@ -49,7 +49,13 @@ public class RoomController {
 
     @PostMapping("/attention/{roomId}")
     public ApiResponse<?> attentionRoom(@PathVariable Integer roomId, @RequestBody JoinRoomReq joinRoomReq) {
-        return roomCommandService.joinRoom(roomId, joinRoomReq.userId());
+        Integer userRoomId = roomCommandService.joinRoom(roomId, joinRoomReq.userId());
+
+        if (userRoomId == null) {
+            return ApiResponse.error(null);
+        }
+
+        return ApiResponse.success(null);
     }
 
 }

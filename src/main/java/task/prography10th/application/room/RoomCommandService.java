@@ -20,6 +20,8 @@ public class RoomCommandService {
 
     private final RoomRepository roomRepository;
 
+    private final RoomQueryService roomQueryService;
+
     private final UserQueryService userQueryService;
 
     private final UserRoomQueryService userRoomQueryService;
@@ -45,5 +47,24 @@ public class RoomCommandService {
         }
 
         return room.getId();
+    }
+
+    public Integer joinRoom(int roomId, int userId) {
+        User user = userQueryService.findUserById(userId);
+        Room room = roomQueryService.findRoomById(roomId);
+
+        if (!user.isActive()) {
+            throw new BadAPIRequestException();
+        }
+
+        if (!room.isActive() || !room.isParticipate()) {
+            throw new BadAPIRequestException();
+        }
+
+        if (userRoomQueryService.existsParticipant(user)) {
+            throw new BadAPIRequestException();
+        }
+
+        return userRoomCommandService.userRoomParticipation(user, room);
     }
 }
