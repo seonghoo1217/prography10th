@@ -67,4 +67,21 @@ public class RoomCommandService {
 
         return userRoomCommandService.userRoomParticipation(user, room);
     }
+
+    public void leaveRoom(int roomId, int userId) {
+        User user = userQueryService.findUserById(userId);
+        Room room = roomQueryService.findRoomById(roomId);
+
+        if (!room.isActive()) {
+            throw new BadAPIRequestException();
+        }
+
+        if (!userRoomQueryService.isUserParticipantRoom(user, room)) {
+            throw new BadAPIRequestException();
+        }
+
+        if (!userRoomCommandService.leaveRoom(user, room)) {
+            throw new BadAPIRequestException();
+        }
+    }
 }

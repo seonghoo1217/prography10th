@@ -44,4 +44,8 @@ public class Room extends BaseEntity {
     public boolean isParticipate() {
         return this.userRooms.size() < this.roomDetails.getRoomType().getCapacity();
     }
+
+    public void gameIsFinish() {
+        this.roomDetails = new RoomDetails(this.roomDetails.getRoomType(), RoomStatus.FINISH);
+    }
 }

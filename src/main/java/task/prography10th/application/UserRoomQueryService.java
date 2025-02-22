@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import task.prography10th.domain.repo.UserRoomRepository;
+import task.prography10th.domain.room.Room;
 import task.prography10th.domain.user.User;
 
 @Service
@@ -15,5 +16,9 @@ public class UserRoomQueryService {
 
     public boolean existsParticipant(User user) {
         return userRoomRepository.existsByUser(user);
+    }
+
+    public boolean isUserParticipantRoom(User user, Room room) {
+        return userRoomRepository.existsByUserAndRoom(user, room);
     }
 }
