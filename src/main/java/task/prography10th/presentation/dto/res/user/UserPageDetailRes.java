@@ -1,4 +1,4 @@
-package task.prography10th.presentation.dto.res;
+package task.prography10th.presentation.dto.res.user;
 
 import task.prography10th.domain.user.UserStatus;
 
