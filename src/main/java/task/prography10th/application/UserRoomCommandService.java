@@ -26,8 +26,8 @@ public class UserRoomCommandService {
     private UserTeam allocationTeam(Room room) {
         int maxPerTeam = room.getRoomDetails().getRoomType().getCapacity() / 2;
 
-        long redTeamCount = userRoomRepository.countByRoomAndTeam(room, UserTeam.RED);
-        long blueTeamCount = userRoomRepository.countByRoomAndTeam(room, UserTeam.BLUE);
+        long redTeamCount = userRoomRepository.countByRoomAndUserTeam(room, UserTeam.RED);
+        long blueTeamCount = userRoomRepository.countByRoomAndUserTeam(room, UserTeam.BLUE);
 
         UserTeam assignedTeam;
 
