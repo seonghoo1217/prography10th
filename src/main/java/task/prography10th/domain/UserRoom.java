@@ -34,4 +34,8 @@ public class UserRoom {
         this.user = user;
         this.userTeam = userTeam;
     }
+
+    public void changeTeam(UserTeam changeTeam) {
+        this.userTeam = changeTeam;
+    }
 }

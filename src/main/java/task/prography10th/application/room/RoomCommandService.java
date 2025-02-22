@@ -10,6 +10,7 @@ import task.prography10th.application.UserRoomCommandService;
 import task.prography10th.application.UserRoomQueryService;
 import task.prography10th.application.room.event.ProgressStatusEvent;
 import task.prography10th.application.user.UserQueryService;
+import task.prography10th.domain.UserTeam;
 import task.prography10th.domain.repo.RoomRepository;
 import task.prography10th.domain.room.Room;
 import task.prography10th.domain.room.RoomStatus;
@@ -107,6 +108,27 @@ public class RoomCommandService {
         }
 
         eventPublisher.publishEvent(new ProgressStatusEvent(roomId, RoomStatus.PROGRESS));
+    }
+
+    public void changeTeam(int roomId, int userId) {
+        User user = userQueryService.findUserById(userId);
+        Room room = roomQueryService.findRoomById(roomId);
+
+        if (!room.isActive()) {
+            throw new BadAPIRequestException();
+        }
+
+        if (!userRoomQueryService.isUserParticipantRoom(user, room)) {
+            throw new BadAPIRequestException();
+        }
+
+        if (!userRoomQueryService.isTeamChangeAllowed(user, room)) {
+            throw new BadAPIRequestException();
+        }
+
+        UserTeam oppositeTeam = userRoomQueryService.getUserOppositeTeam(user, room);
+
+        userRoomCommandService.changeTeam(user, room, oppositeTeam);
     }
 
     @EventListener

@@ -58,6 +58,11 @@ public class UserRoomCommandService {
         return true;
     }
 
+    public void changeTeam(User user, Room room, UserTeam changeTeam) {
+        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(BadAPIRequestException::new);
+        userRoom.changeTeam(changeTeam);
+    }
+
     private void leaveHostRoom(Room room) {
         List<UserRoom> participants = userRoomRepository.findByRoom(room);
         userRoomRepository.deleteAllInBatch(participants);
