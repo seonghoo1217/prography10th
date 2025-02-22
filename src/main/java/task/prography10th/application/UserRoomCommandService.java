@@ -7,6 +7,7 @@ import task.prography10th.domain.UserRoom;
 import task.prography10th.domain.UserTeam;
 import task.prography10th.domain.repo.UserRoomRepository;
 import task.prography10th.domain.room.Room;
+import task.prography10th.domain.room.RoomStatus;
 import task.prography10th.domain.user.User;
 import task.prography10th.global.exception.BadAPIRequestException;
 
@@ -46,7 +47,7 @@ public class UserRoomCommandService {
     }
 
     public boolean leaveRoom(User user, Room room) {
-        if (room.getHost().equals(user)) {
+        if (room.isHost(user.getId())) {
             leaveHostRoom(room);
             return true;
         }
@@ -61,7 +62,7 @@ public class UserRoomCommandService {
         List<UserRoom> participants = userRoomRepository.findByRoom(room);
         userRoomRepository.deleteAllInBatch(participants);
 
-        room.gameIsFinish();
+        room.modifyGameStatus(RoomStatus.FINISH);
     }
 
     private UserRoom findUserRoom(User user, Room room) {

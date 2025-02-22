@@ -45,7 +45,15 @@ public class Room extends BaseEntity {
         return this.userRooms.size() < this.roomDetails.getRoomType().getCapacity();
     }
 
-    public void gameIsFinish() {
-        this.roomDetails = new RoomDetails(this.roomDetails.getRoomType(), RoomStatus.FINISH);
+    public void modifyGameStatus(RoomStatus roomStatus) {
+        this.roomDetails = new RoomDetails(this.roomDetails.getRoomType(), roomStatus);
+    }
+
+    public boolean isHost(Integer userId) {
+        return this.host.getId().equals(userId);
+    }
+
+    public boolean isReady() {
+        return this.userRooms.size() == this.roomDetails.getRoomType().getCapacity();
     }
 }

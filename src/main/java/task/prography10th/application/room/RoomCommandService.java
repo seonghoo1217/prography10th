@@ -1,10 +1,14 @@
 package task.prography10th.application.room;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import task.prography10th.application.UserRoomCommandService;
 import task.prography10th.application.UserRoomQueryService;
+import task.prography10th.application.room.event.ProgressStatusEvent;
 import task.prography10th.application.user.UserQueryService;
 import task.prography10th.domain.repo.RoomRepository;
 import task.prography10th.domain.room.Room;
@@ -12,6 +16,10 @@ import task.prography10th.domain.room.RoomStatus;
 import task.prography10th.domain.user.User;
 import task.prography10th.global.exception.BadAPIRequestException;
 import task.prography10th.presentation.dto.req.room.CreateRoomReq;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +35,12 @@ public class RoomCommandService {
     private final UserRoomQueryService userRoomQueryService;
 
     private final UserRoomCommandService userRoomCommandService;
+
+    private final TransactionTemplate transactionTemplate;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    private final ApplicationEventPublisher eventPublisher;
+
 
     public Integer createRoom(CreateRoomReq createRoomReq) {
         User user = userQueryService.findUserById(createRoomReq.userId());
@@ -83,5 +97,35 @@ public class RoomCommandService {
         if (!userRoomCommandService.leaveRoom(user, room)) {
             throw new BadAPIRequestException();
         }
+    }
+
+    public void gameStart(Integer roomId, Integer userId) {
+        Room room = roomQueryService.findRoomById(roomId);
+
+        if (!room.isHost(userId) || !room.isActive() || !room.isReady()) {
+            throw new BadAPIRequestException();
+        }
+
+        eventPublisher.publishEvent(new ProgressStatusEvent(roomId, RoomStatus.PROGRESS));
+    }
+
+    @EventListener
+    public void handleProgressStatusEvent(ProgressStatusEvent event) {
+        Room room = roomRepository.findById(event.roomId()).orElseThrow(BadAPIRequestException::new);
+        room.modifyGameStatus(event.roomStatus());
+
+        if (event.roomStatus() == RoomStatus.PROGRESS) {
+            scheduler.schedule(() -> {
+                transactionTemplate.execute(status -> {
+                    finishRoomStatus(event.roomId());
+                    return null;
+                });
+            }, 1, TimeUnit.MINUTES);
+        }
+    }
+
+    private void finishRoomStatus(Integer roomId) {
+        Room findRoom = roomQueryService.findRoomById(roomId);
+        findRoom.modifyGameStatus(RoomStatus.FINISH);
     }
 }

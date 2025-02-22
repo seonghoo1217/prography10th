@@ -9,6 +9,7 @@ import task.prography10th.domain.room.Room;
 import task.prography10th.global.dto.ApiResponse;
 import task.prography10th.presentation.dto.req.PageReq;
 import task.prography10th.presentation.dto.req.room.CreateRoomReq;
+import task.prography10th.presentation.dto.req.room.GameStartReq;
 import task.prography10th.presentation.dto.req.room.JoinRoomReq;
 import task.prography10th.presentation.dto.req.room.LeaveRoomReq;
 import task.prography10th.presentation.dto.res.room.RoomDetailRes;
@@ -62,6 +63,13 @@ public class RoomController {
     @PostMapping("/out/{roomId}")
     public ApiResponse<?> leaveRoom(@PathVariable Integer roomId, @RequestBody LeaveRoomReq leaveRoomReq) {
         roomCommandService.leaveRoom(roomId, leaveRoomReq.userId());
+
+        return ApiResponse.success(null);
+    }
+
+    @PostMapping("/start/{roomId}")
+    public ApiResponse<?> startGamePingPong(@PathVariable Integer roomId, @RequestBody GameStartReq gameStartReq) {
+        roomCommandService.gameStart(roomId, gameStartReq.userId());
 
         return ApiResponse.success(null);
     }
