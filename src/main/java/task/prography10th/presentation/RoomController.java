@@ -36,10 +36,11 @@ public class RoomController {
         return ApiResponse.success(roomPageRes);
     }
 
-    @GetMapping("/{id}")
-    public ApiResponse<?> findRoomById(@PathVariable Integer id) {
-        RoomDetailRes roomDetailRes = roomQueryService.findRoomById(id);
+    @GetMapping("/{roomId}")
+    public ApiResponse<?> findRoomById(@PathVariable Integer roomId) {
+        RoomDetailRes roomDetailRes = roomQueryService.findRoomById(roomId);
 
         return ApiResponse.success(roomDetailRes);
     }
+
 }
